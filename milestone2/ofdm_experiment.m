@@ -25,8 +25,6 @@ qam_stream_r = ofdm_demod(sig,N,L);
  ber(seq,seq_r)
  
  fs = 1000;
- R = M*((n/2)-1)*fs/(N+L)
- 
- ;
+ R = M*((n/2)-1)*fs/N ;
 %%
 

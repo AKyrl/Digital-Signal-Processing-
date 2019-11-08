@@ -1,5 +1,5 @@
 %% ---- initalise parameters ----
-fs = 16000;
+fs = 1000;
 t=[0:1/fs:2]';
  % freq = 400;
  % freq = 1500;
@@ -9,9 +9,10 @@ t=[0:1/fs:2]';
  for i=1:8
     sig =  sig + sin(freq(i)*2*pi*t) + DC;
  end
- sig= wgn(10000,1,1);
+ fs = 16000;
+ sig= wgn(2*fs,1,1);
 dftsize = 1000; 
-fs = 16000;
+
 window = dftsize;
 %% ---- play and record ----
 [simin,nbsecs,fs] = initparams(sig,fs);
@@ -62,10 +63,9 @@ plot(f_out,10*log(psd_out))
  [M,I]=max(out);
  %impulse=out(I-20:I+200);
 
-T=toeplitz(out(I-10:I+5000),zeros([1 100]));
-size(T,1);
-length(out(2*fs:2*fs+size(T,1)-1))
-h=T\out(2*fs-100:2*fs+size(T,1)-101);
+T=toeplitz(simin(2*fs:2*fs+k-1),fliplr(simin(2*fs-L+1:2*fs)));
+% length(out(2*fs:2*fs+size(T,1)-1))
+h=T\out(2*fs-100:2*fs+k-101);
 figure(3)
 subplot(2,1,1)
  plot(20*log(abs(fft(h))));
