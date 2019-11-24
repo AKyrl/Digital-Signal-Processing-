@@ -7,9 +7,12 @@
 %  soundsc(out,fs);
 % [M,I]=max(out);
  %impulse=out(I-20:I+200);
+K = duration*fs;
+c=simin(2*fs:2*fs+K-1, 1);
+r = fliplr(simin(2*fs-L+1:2*fs));
+T=toeplitz(c,r);
+O=out(2*fs-100:2*fs+size(T,1)-101);
+h=T\O;
 
-T=toeplitz(noise,zeros([1 100]));
-size(T,1)
-length(out(2*fs:2*fs+size(T,1)-1))
-h=T\out(2*fs-100:2*fs+size(T,1)-101);
+
 plot(20*log(abs(h)));
