@@ -2,7 +2,7 @@ function [out_aligned]= alignIO(out,pulse,L)
 
 [r,lags]=xcorr(out,pulse); 
 [~,I]=max(r);
-lags(I);
+D=lags(I);
 
-out_aligned=out(abs(lags)+length(pulse)+L-20:end);
+out_aligned=out(abs(D)+length(pulse)+L-20:end);
 end
