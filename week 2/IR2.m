@@ -9,7 +9,7 @@ storeData = false;          % if true stores the played/recorded signals
 duration = 2;           % duration of white noise signal (+ 1s before, 2s after of silence)
 %-----
 
-if newSim
+ newSim
     t = linspace(0, duration, duration*fs);
     sig =  wgn(length(t),1,0);
 
@@ -17,10 +17,7 @@ if newSim
     [simin,nbsecs,fs]=initparams(sig,fs);
     sim('recplay');
     record=simout.signals.values;
-else
-    simin = importdata('signalTx.mat');
-    record = importdata('signalRx.mat');
-end
+
 
 % synchronizing played and recorded signal
 d = 0;
