@@ -1,5 +1,6 @@
 % Exercise session 4: DMT-OFDM transmission scheme
 clear all;
+load('matlab.mat')
 % Convert BMP image to bitstream
 [bitStream, imageData, colorMap, imageSize, bitsPerPixel] = imagetobitstream('image.bmp');
 
@@ -23,10 +24,11 @@ ofdmStream = repmat(ofdmStream,100,1);
 % Channel
 SNR = inf;
 noise =   randn(size(ofdmStream))/SNR ;
-order = 3;
-for i=1:order
-   h(i) = randn/2; 
-end
+% order = 3;
+% for i=1:order
+%    h(i) = randn/2; 
+% end
+h= h_lse;
 rxOfdmStream = fftfilt(h,ofdmStream) + noise;
 
 % OFDM demodulation
