@@ -11,8 +11,11 @@ Packet = mod_seq(:,(i-1)*(Ld+Lt)+1+Lt:(i-1)*(Ld+Lt)+Ld+Lt); % Take each packet
 framec=conj(frame);
 framec=flip(framec,1);
 G = fft(trainBlock);
-h(1)=G(1,1);
-h(N)=0;
+B=G(1,:);
+h(1)=mean(B);
+B=G(N/2,:);
+h(N/2)=mean(B);
+
 
     for k=1:N/2-1
         A=repmat(frame(k),1,Lt);

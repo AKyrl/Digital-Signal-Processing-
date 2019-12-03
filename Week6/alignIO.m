@@ -4,5 +4,5 @@ function [out_aligned]= alignIO(out,pulse,L)
 [~,I]=max(r);
 D=lags(I);
 
-out_aligned=out(abs(D)+length(pulse)+L-20:end);
+out_aligned=out(abs(D)+length(pulse)+L-100:end);
 end
