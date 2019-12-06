@@ -58,6 +58,10 @@ rxBitStream = qam_demod(rxQamStream,M);
 %% Construct image from bitstream
 imageRx = bitstreamtoimage(rxBitStream, imageSize, bitsPerPixel);
 
+% channel estimation prcessing
+h_est = ifft(H_est.').';
+sys = tf(h_est.', [1 zeros(1,length(h_est.')-1)], 1/fs);
+f_axis = ((-N/2):N/2-1)/N*2*fs;
 %% Plot image
 
 
