@@ -68,5 +68,15 @@ imageRx = bitstreamtoimage(rxBitStream, imageSize, bitsPerPixel);
 % plot(h);
 
 
-
+figure('NumberTitle', 'off', 'Name', 'OFDM_est');
+subplot(2,1,1);
+impulse(sys)
+title('Estimated time domain impulse response', 'Interpreter', 'Latex');
+xlabel('time', 'Interpreter', 'Latex');
+ylabel('impulse response', 'Interpreter', 'Latex');
+subplot(2,1,2);
+plot(f_axis,20*log10(abs(fftshift(H_est))))
+title('Estimated frequency response', 'Interpreter', 'Latex');
+xlabel('frequency[Hz]', 'Interpreter', 'Latex');
+ylabel('magnitude (dB)', 'Interpreter', 'Latex');
 
