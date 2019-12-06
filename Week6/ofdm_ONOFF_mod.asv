@@ -1,14 +1,8 @@
 function [mod_seq,Dummy]=ofdm_ONOFF_mod(QAM_stream,N,L,train,Lt,Ld,index)
 
-if length(index) == 511
-    
-    frames = ceil(length(QAM_stream)/((N/2)-1 ));
-else
-    frames = ceil(length(QAM_stream)/(((N/2)-1 ) -(length(index)-1)));
-end
-    
+if 
 
-
+frames = ceil(length(QAM_stream)/(((N/2)-1 ) +N/2-2-(length(index)-1)));
 
 P = zeros(N/2-1, frames);
 

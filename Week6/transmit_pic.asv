@@ -3,12 +3,11 @@ clear all;
 %% Convert BMP image to bitstream
 [bitStream, imageData, colorMap, imageSize, bitsPerPixel] = imagetobitstream('image.bmp');
 
-Lt=40; %Lt training frames
+Lt=10; %Lt training frames
 Ld=15; %Ld data Frames
-BWusage = 100;
 onoff=true;
 %% Create Train vector
-Nq = 2; %<=6
+Nq = 4; %<=6
 M = 2^Nq;
 N = 1024;
 S = (N/2-1)*Nq;
@@ -26,8 +25,7 @@ end
 qamStream = qam_mod(bitStream,M);
 Train_qam = qam_mod(train,M);
 Lqam = length(qamStream);
-Lt=10; %Lt training frames
-Ld=15; %Ld data Frames
+
 
 
 
@@ -36,8 +34,8 @@ Ld=15; %Ld data Frames
 %% OFDM modulation
 
 L=9;
-%  ofdmStream = ofdm_mod(qamStream,N,L,Train_qam,Lt,Ld);
- ofdmStream = ofdm_ONOFF_mod(qamStream,N,L,Train_qam,Lt,Ld,index);
+ ofdmStream = ofdm_mod(qamStream,N,L,Train_qam,Lt,Ld);
+% ofdmStream = ofdm_ONOFF_mod(qamStream,N,L,Train_qam,Lt,Ld,300,350);
 
 %% Channel
 fs = 16000;
@@ -55,8 +53,8 @@ rxOfdmStream=out_aligned(1:length(ofdmStream));
 
 %% OFDM demodulation
 
-%  [rxQamStream,channel_est] = ofdm_demod(rxOfdmStream,N,L,Lqam,Train_qam,Lt,Ld);
-  [rxQamStream,channel_est] = ofdm_ONOFF_demod(rxOfdmStream,N,L,Lqam,Train_qam,Lt,Ld,index);
+ [rxQamStream,channel_est] = ofdm_demod(rxOfdmStream,N,L,Lqam,Train_qam,Lt,Ld);
+%  [rxQamStream,channel_est] = ofdm_ONOFF_demod(rxOfdmStream,N,L,Lqam,Train_qam,Lt,Ld,300,350);
 
 %% QAM demodulation
 
