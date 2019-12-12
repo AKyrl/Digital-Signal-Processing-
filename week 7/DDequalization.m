@@ -33,9 +33,9 @@ H = 2*( rand() + j*rand());
 SNR = inf;
 noise =   randn(size(qamStream)) ;
 sig = conv(qamStream,H) + noise/SNR;
-% % [simin,nbsecs,fs]=initparams(ofdmStream_pulse,fs);
-% % sim('recplay')
-% % out=simout.signals.values;
+% [simin,nbsecs,fs]=initparams(ofdmStream_pulse,fs);
+% sim('recplay')
+% out=simout.signals.values;
 
 
 
