@@ -1,4 +1,4 @@
-function [qam_seq,channel_est]=ofdm_ONOFF_demod(mod_seq,N,L,Lqam,frame,Lt,index,M,FUN)
+function [qam_seq,channel_est]=ofdm_ONOFF_demod(mod_seq,N,L,Lqam,frame,Lt,index,M)
 
  
 
@@ -33,38 +33,34 @@ end
 Hn=[0 h 0 fliplr(conj(h))];
 channel_est=Hn;
 
-
-PacketReal=fft(Packet)./FUN;
-%%%% Finding W%%%%%%
 W=zeros(1,length(h));
-for j=1:length(index)
-i=index(j);
-W(i)=1/conj(h(i));    
-mi= 0.003;
-alpha= 0.00001;
-sig=fft(Packet(i+1,:).');
-Y= fft(Packet(i+1,:).');
-e=1;
-    while abs(e) >0.15
-       estimatedBit = qam_demod(Y,M);
-        estimatedQAM = qam_mod(estimatedBit,M);
-        Y=conj(W(i))*sig;
-        corr=  mi./(alpha + conj(sig).'*sig);
-        A= sig.'*conj(estimatedQAM-Y);
-        W(i) = W(i) + corr.* A;
-        e = mean( Y-estimatedQAM);
-        %e = conj(W(i))-(1/HP(i+1));
+X=zeros(length(h),size(Packet,2));
+% PacketReal=fft(Packet)./FUN;
+%%%% Finding W%%%%%%
+PacketFFT=fft(Packet);
+for m=1:length(index)
+    i=index(m);
+    sig= PacketFFT(i+1,1).';
+    W(i,1)=1/conj(h(i)); 
+    X(i,1)=conj(W(i,1))*sig;
+    for j=2:size(Packet,2)
+    mi= 0.5;
+    alpha= 0.00001;
+    sig= PacketFFT(i+1,j).';
+    Yk=conj(W(i,j-1)).*sig;
+    estimatedBit = qam_demod(Yk,M);
+    estimatedQAM = qam_mod(estimatedBit,M);
+    corr=  mi./(alpha + conj(sig).'*sig);
+    A= sig.'*conj(estimatedQAM-Yk);
+    W(i,j) = W(i,j-1) + corr.* A;
+    X(i,j)=conj(W(i,j))*sig;
     end
 end
 
-Hm=[0 W 0 fliplr(conj(W))];
-Essai= 1./conj(Hm);
-seq=fft(Packet).*conj(Hm).';
-
-seq1=seq;
+seq1=X;
 k=1;
 frames=size(seq1,2);
-seq1=seq1(2:N/2,:);
+
 
 for j= 1:length(index)%stop:N/2
     for i=1:frames

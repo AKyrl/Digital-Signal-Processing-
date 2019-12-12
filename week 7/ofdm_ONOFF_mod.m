@@ -1,6 +1,6 @@
 function [mod_seq,Dummy]=ofdm_mod(QAM_stream,N,L,train,Lt,index)
 
-div= (N/2-1) -(length(index)-1)
+div= (N/2-1) -(length(index)-1);
 frames = ceil(length(QAM_stream)/div);
 P = zeros(N/2-1, frames);
 k = 1;
