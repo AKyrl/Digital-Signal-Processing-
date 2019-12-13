@@ -63,8 +63,8 @@ while abs(e) >0.001
     corr=  mi./(alpha + conj(sig).'*sig);
     A= sig().'*conj(estimatedQAM-Y);
     W = W + corr.* A;
-    e = mean(estimatedQAM - Y)
-%     e = conj(W)-(1/H);
+%     e = mean(estimatedQAM - Y)
+    e = conj(W)-(1/H);
     e_plot(i) = e;
     i = i+1;
 end

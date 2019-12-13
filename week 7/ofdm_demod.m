@@ -29,7 +29,7 @@ for i=1:length(h)
     W(i,1)=1/conj(h(i)); 
     X(i,1)=conj(W(i,1))*sig;
     for j=2:size(Packet,2)
-    mi= 0.5;
+    mi= 0.15;
     alpha= 0.00001;
     sig= PacketFFT(i+1,j).';
     Yk=conj(W(i,j-1)).*sig;
@@ -42,11 +42,6 @@ for i=1:length(h)
     end
 end
 
-
-% Hm=[0 W 0 fliplr(conj(W))];
-% seq=fft(Packet).*conj(Hm).';
-% sig = X(1:(N/2),:);
-%sig = mod_seq(2:(N/2),1);
 qam_seq = X(:);
 qam_seq=qam_seq(1:Lqam);
 

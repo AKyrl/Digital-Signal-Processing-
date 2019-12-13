@@ -15,7 +15,7 @@ train = randi([0 1],S,1) ;
 
 N=1024;
 
-order=3;
+order=100;
 for i=1:order
     h1(i) = randn/2; 
     h2(i) = rand/4;
@@ -31,12 +31,12 @@ Lqam = length(qamStream);
 
 %% OFDM modulation
 
-L=9;
+L=50;
  ofdmStream = ofdm_mod(qamStream,N,L,Train_qam,Lt); 
 [ofdmStream1,ofdmStream2] = ofdm_mod_stereo(qamStream,a,b,N,L,Train_qam,Lt);
  
-
-SNR = 100;
+b=0;
+SNR = 40;
 noise =   randn(size(ofdmStream))/SNR ;
 rxOfdmStream = fftfilt(h1,ofdmStream1) + fftfilt(h2,ofdmStream2)+ noise;
  

@@ -21,7 +21,15 @@ ofdmStream1 = repmat(ofdmStream1,50,1);
 % Channel
 Pulse=[wgn(fs,1,0);zeros(300,1)];
 Pulse_norm=Pulse/max(Pulse)/10;
-ofdmStream_pulse = [Pulse_norm;ofdmStream1];
+ ofdmStream_pulse = [Pulse_norm;ofdmStream1];
+
+% SNR = inf;
+% noise =   randn(size(ofdmStream1))/SNR ;
+% order = 200;
+% for i=1:order
+%    h(i) =5*( randn+j*randn); 
+% end
+% rxOfdmStream = fftfilt(h,ofdmStream1) + noise;
 
 [simin,nbsecs,fs]=initparams(ofdmStream_pulse,fs);
 sim('recplay')
@@ -50,8 +58,11 @@ h_est = ifft(H_est.').';
 
 [sorted_h, index] = sort(H_est(2:N/2),'descend');
 
+if BWusage<100
 index = index(1:floor(((N/2))*BWusage/100));
-
+else
+index = index(1:floor((N/2)-1));
+end
 
 sys = tf(h_est.', [1 zeros(1,length(h_est.')-1)], 1/fs);
 
